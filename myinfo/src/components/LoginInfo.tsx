@@ -3,11 +3,13 @@ import { Formik, Form, Field, useFormik } from 'formik'
 import { ILoginInformation } from '../types/ILoginForm'
 import { Button, TextField } from '@mui/material';
 import Login from '../service/loginservice';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginInfo() {
 
+  const navig= useNavigate();
   const invalues: ILoginInformation = {
-    email: "",
+    username: "",
     password: ""
   }
 
@@ -15,7 +17,9 @@ export default function LoginInfo() {
     initialValues: invalues,
     onSubmit: (values:ILoginInformation) => {
      
-      Login(values);
+      Login(values).then(y=>{
+        navig("/lead")
+      });
     },
   });
 
@@ -24,14 +28,14 @@ export default function LoginInfo() {
     <form onSubmit={formik.handleSubmit}>
       <TextField
         fullWidth
-        id="email"
-        name="email"
+        id="username"
+        name="username"
         label="Email"
-        value={formik.values.email}
+        value={formik.values.username}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        error={formik.touched.email && Boolean(formik.errors.email)}
-        helperText={formik.touched.email && formik.errors.email}
+        error={formik.touched.username && Boolean(formik.errors.username)}
+        helperText={formik.touched.username && formik.errors.username}
       />
       <TextField
         fullWidth
