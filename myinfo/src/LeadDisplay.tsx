@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { ILead } from './types/ILeadGrid'
 import axios from 'axios';
 import authFetch from './axiosInfobase/custom';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Box } from '@mui/material';
 
-export default function LeadDisplay() {
+ function LeadDisplay() {
 
     const [data,setData]= useState<ILead[]>([]);
 
@@ -20,9 +20,22 @@ export default function LeadDisplay() {
         {
           field: 'leadStatus',
           headerName: 'lead Status',
-          width: 150,
-          editable: true,
+          renderCell: (params: GridRenderCellParams<any, string>) => 
+            { 
+            
+              console.log(params?.row?._id);
+
+              return (
+            <strong>
+                <select value={params.value} >
+                    <option>active</option>
+                    <option>sold</option>
+                    <option>pending</option>
+                </select>
+            </strong>
+          )},
         },
+        
         {
           field: 'leadEmail',
           headerName: 'lead Email',
@@ -72,3 +85,5 @@ export default function LeadDisplay() {
   </Box>
   )
 }
+
+export default React.memo(LeadDisplay);
